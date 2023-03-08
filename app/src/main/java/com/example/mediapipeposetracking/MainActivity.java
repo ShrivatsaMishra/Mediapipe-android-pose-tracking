@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String OUTPUT_VIDEO_STREAM_NAME = "output_video";
     private static final String OUTPUT_LANDMARKS_STREAM_NAME = "pose_landmarks";
 
-   // private static final CameraHelper.CameraFacing CAMERA_FACING = CameraHelper.CameraFacing.FRONT;
-    private static final CameraHelper.CameraFacing CAMERA_FACING = CameraHelper.CameraFacing.BACK;
+    private static final CameraHelper.CameraFacing CAMERA_FACING = CameraHelper.CameraFacing.FRONT;
+//    private static final CameraHelper.CameraFacing CAMERA_FACING = CameraHelper.CameraFacing.BACK;
     // Flips the camera-preview frames vertically before sending them into FrameProcessor to be
     // processed in a MediaPipe graph, and flips the processed frames back when they are displayed.
     // This is needed because OpenGL represents images assuming the image origin is at the bottom-left
@@ -135,6 +135,14 @@ public class MainActivity extends AppCompatActivity {
                                             + "] #Landmarks for iris: "
                                             + landmarks.getLandmarkCount());
                             Log.v(TAG, getLandmarksDebugString(landmarks));
+                            String s = "";
+                            NormalizedLandmark nose = landmarks.getLandmarkList().get(0);
+                            NormalizedLandmark right = landmarks.getLandmarkList().get(2);
+                            NormalizedLandmark left = landmarks.getLandmarkList().get(5);
+
+                            float rd = ((nose.getX()-right.getX())*(nose.getX()-right.getX()))+((nose.getY()-right.getY())*(nose.getY()-right.getY()));
+                            float ld = ((nose.getX()-left.getX())*(nose.getX()-left.getX()))+((nose.getY()-left.getY())*(nose.getY()-left.getY()));
+                            Log.i("Distance", rd+" "+ld);
                         } catch (InvalidProtocolBufferException e) {
                             Log.e(TAG, "Couldn't Exception received - " + e);
                             return;
